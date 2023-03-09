@@ -1,7 +1,7 @@
 export enum Status {
     PENDING = "PENDING",
     STARTED = "STARTED",
-    FINISHED = "FINISHED",
+    DONE = "DONE",
     PAUSED = "PAUSED",
     ABORTED = "ABORTED",
 }

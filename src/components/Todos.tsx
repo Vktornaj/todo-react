@@ -1,50 +1,41 @@
 import { useLayoutEffect, useState } from "react";
 
-import { Todo } from "../types/todoTypes";
+import { Status, Todo } from "../types/todoTypes";
 import TodoItem from "./TodoItem";
 import userService from "../services/user.service";
-import { addapterEndpointTodo } from "../adapters/user";
+import { addapterEndpointTodo, addapterMyTodo } from "../adapters/user";
 
-
-const handleToggle = (id: string) => {
-    console.log(id);
-}
-
-const handleRemove = (id: string) => {
-    console.log(id);
-}
-
-const handlePause = (id: string) => {
-    console.log(id);
-}
-
-const handleAbort = (id: string) => {
-    console.log(id);
-}
-
-const handleStart = (id: string) => {
-    console.log(id);
-}
 
 const Todos = () => {
 
     const [myTodos, setMyTodos] = useState<Array<Todo>>([]);
 
-    useLayoutEffect(() => {
+    const updateTodos = () => {
         userService.getTodos()
-            .then(
-                (res) => {
-                    const todos = res.map(addapterEndpointTodo);
-                    setMyTodos(todos);
-                }
-            )
-            .catch(
-                _ => {
-                    console.error("Error get todos");
-                }
-            );
-    }, []);
-    
+            .then((res) => {
+                const todos = res.map(addapterEndpointTodo);
+                setMyTodos(todos);
+            })
+            .catch(_ => {
+                console.error("Error get todos");
+            });
+    }
+
+    useLayoutEffect(updateTodos, []);
+
+    const handleSetTodoStatus = (id: string, status: Status) => {
+        userService.putTodoStatus(id, status)
+            .then(_ => updateTodos())
+            .catch(_ => {
+                console.error(`Error on set ${status} todo`);
+            });
+    }
+
+    const handleRemove = (id: string) => {
+        userService.deleteTodo(id)
+            .then(_ => updateTodos())
+            .catch(_ => console.error("Error removing todo"));
+    }
 
     return(
         <div className="container">
@@ -59,11 +50,8 @@ const Todos = () => {
                     <TodoItem 
                         key={todo.id} 
                         todo={todo} 
-                        onToggle={handleToggle} 
+                        handleSetTodoStatus={handleSetTodoStatus} 
                         onRemove={handleRemove}
-                        onPause={handlePause}
-                        onAbort={handleAbort}
-                        onStart={handleStart}
                     />
                 ))}
             </ul>
