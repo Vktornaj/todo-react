@@ -5,6 +5,7 @@ import authService from "../services/auth.service";
 import { addapterMyUserRegister } from "../adapters/user";
 import SubmitButton from "./SubmitButton";
 
+
 const Register = () => {
 
     const [isShowPassword, setIsShowPassword] = useState<boolean>(false);
@@ -55,7 +56,7 @@ const Register = () => {
                 </div>
                 <div className="form-group">
                     <label htmlFor="inputPassword1">Password</label>
-                    <button onClick={ () => setIsShowPassword(!isShowPassword) }>
+                    <button type="button" onClick={ () => setIsShowPassword(!isShowPassword) }>
                             {isShowPassword ? "Hide" : "Show"}
                     </button>
                     <input 

@@ -1,5 +1,9 @@
-import { myTodos } from "../fakeData";
+import { useLayoutEffect, useState } from "react";
+
+import { Todo } from "../types/todoTypes";
 import TodoItem from "./TodoItem";
+import userService from "../services/user.service";
+import { addapterEndpointTodo } from "../adapters/user";
 
 
 const handleToggle = (id: string) => {
@@ -23,6 +27,25 @@ const handleStart = (id: string) => {
 }
 
 const Todos = () => {
+
+    const [myTodos, setMyTodos] = useState<Array<Todo>>([]);
+
+    useLayoutEffect(() => {
+        userService.getTodos()
+            .then(
+                (res) => {
+                    const todos = res.map(addapterEndpointTodo);
+                    setMyTodos(todos);
+                }
+            )
+            .catch(
+                _ => {
+                    console.error("Error get todos");
+                }
+            );
+    }, []);
+    
+
     return(
         <div className="container">
             <h2>Todos</h2>
