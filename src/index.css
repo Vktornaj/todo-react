@@ -1,0 +1,163 @@
+/* ---Navbar--- */
+.navbar {
+    display: flex;
+    border: solid;
+    padding: 1rem 1rem;
+    justify-content: space-between;
+}
+
+.navbar > ul {
+    display: flex;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.navbar > ul > li {
+    margin: 0 0 0 1rem
+}
+
+
+/* ---Container--- */
+.container {
+    margin: 0 auto;
+    width: 90%;
+}
+
+
+/* ---Form--- */
+form {
+    border: solid;
+    padding: 1rem 2rem;
+    width: fit-content;
+}
+
+form input {
+    display: block;
+    width: 20rem;
+}
+
+.form-group {
+    margin: 1rem 0;
+}
+
+/* ---Todo--- */
+.todo-list {
+    display: flex;
+    flex-direction: column;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.todo-item {
+    border: 2px solid;
+    padding: 1rem 2rem;
+    margin: 0.5rem 0;
+}
+
+.todo-item > .header {
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.todo-item > .body {
+    margin: 0 0;
+}
+
+.todo-item > .body > .data {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.todo-item > .body > .data > p {
+    display: flex;
+    align-items: center;
+}
+
+.todo-item > .body > .data > div {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-top: 1rem;
+}
+
+.todo-item > .body > .data > div > span {
+    margin: 0.15rem 0;
+}
+
+.todo-item > .body > .tags {
+    display: flex;
+}
+
+.todo-item > .body > .tags > .tag {
+    margin: 0 0.5rem 0 0;
+    background-color: #98c9f7;
+    padding: 0.1rem 0.5rem;
+    font: 0.9em sans-serif;
+}
+
+.add-todo {
+    display: flex;
+    margin: 1rem 0;
+}
+
+.add-todo > .label {
+    flex-basis: fit-content;
+    margin-right: 0.5rem;
+}
+
+.add-todo > .input {
+    flex: 1;
+}
+
+.add-todo > .button {
+    margin-left: 0.5rem;
+}
+
+
+/* ---Submit Button--- */
+.btn-submit {
+    width: 4.5rem;
+}
+
+.lds-facebook {
+    display: inline-block;
+    position: relative;
+    width: 10px;
+    height: 10px;
+  }
+  .lds-facebook div {
+    display: inline-block;
+    position: absolute;
+    left: 1px;
+    width: 3px;
+    background: #6c6c6c;
+    animation: lds-facebook 1.2s cubic-bezier(0, 0.5, 0.5, 1) infinite;
+  }
+  .lds-facebook div:nth-child(1) {
+    left: 1px;
+    animation-delay: -0.24s;
+  }
+  .lds-facebook div:nth-child(2) {
+    left: 5px;
+    animation-delay: -0.12s;
+  }
+  .lds-facebook div:nth-child(3) {
+    left: 9px;
+    animation-delay: 0;
+  }
+  @keyframes lds-facebook {
+    0% {
+      top: 0px;
+      height: 12px;
+    }
+    50%, 100% {
+      top: 3px;
+      height: 4px;
+    }
+  }
+  
