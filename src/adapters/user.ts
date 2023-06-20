@@ -16,8 +16,8 @@ const addapterEndpointStatus = (status: string) => {
             return Status.PENDING;
         case "STARTED":
             return Status.STARTED;
-        case "FINISHED":
-            return Status.FINISHED;
+        case "DONE":
+            return Status.DONE;
         case "PAUSED":
             return Status.PAUSED;
         case "ABORTED":
@@ -30,8 +30,8 @@ const addapterEndpointStatus = (status: string) => {
 export const addapterEndpointUser = (user: UserEndpoint) => {
     const formattedUser: MyUser = {
         username: user.username,
-        lastName: user.last_name,
-        firstName: user.first_name,
+        lastName: user.lastName,
+        firstName: user.firstName,
     };
 
     return formattedUser;
@@ -40,8 +40,8 @@ export const addapterEndpointUser = (user: UserEndpoint) => {
 export const addapterMyUser = (user: MyUser) => {
     const formattedUser: UserEndpoint = {
         username: user.username,
-        last_name: user.lastName,
-        first_name: user.firstName,
+        lastName: user.lastName,
+        firstName: user.firstName,
     };
 
     return formattedUser;
@@ -54,24 +54,24 @@ export const addapterEndpointTodo = (todo: Todo) => {
         description: todo.description,
         status: addapterEndpointStatus(todo.status),
         createDate: new Date(todo.create_date),
-        doneDate: new Date(todo.done_date),
-        deadline: new Date(todo.deadline),
+        doneDate: todo.done_date ? new Date(todo.done_date) : null,
+        deadline: todo.deadline ? new Date(todo.deadline) : null,
         tags: todo.tags,
     };
 
     return formattedTodo;
 };
 
-export const addapterMyTodo = (todo: MyTodo) => {
+export const addapterMyTodo = (myTodo: MyTodo) => {
     const formattedTodo: Todo = {
-        id: todo.id,
-        title: todo.title,
-        description: todo.description,
-        status: todo.status,
-        create_date: todo.createDate.toJSON(),
-        done_date: todo.doneDate?.toJSON() || "",
-        deadline: todo.deadline?.toJSON() || "",
-        tags: todo.tags,
+        id: myTodo.id,
+        title: myTodo.title,
+        description: myTodo.description,
+        status: myTodo.status,
+        create_date: myTodo.createDate.toJSON(),
+        done_date: myTodo.doneDate?.toJSON() || null,
+        deadline: myTodo.deadline?.toJSON() || null,
+        tags: myTodo.tags,
     };
 
     return formattedTodo;
@@ -99,8 +99,8 @@ export const addapterEndpointUserLogin = (userLogin: UserLogin) => {
 export const addapterMyUserRegister = (userRegister: MyUSerRegister) => {
     const formattedUserRegister: UserRegister = {
         username: userRegister.username,
-        first_name: userRegister.firstName,
-        last_name: userRegister.lastName,
+        firstName: userRegister.firstName,
+        lastName: userRegister.lastName,
         password: userRegister.password,
     };
 
@@ -110,8 +110,8 @@ export const addapterMyUserRegister = (userRegister: MyUSerRegister) => {
 export const addapterEndpointUserRegister = (userRegister: UserRegister) => {
     const formattedUserRegister: MyUSerRegister = {
         username: userRegister.username,
-        firstName: userRegister.first_name,
-        lastName: userRegister.last_name,
+        firstName: userRegister.firstName,
+        lastName: userRegister.lastName,
         password: userRegister.password,
     };
 
