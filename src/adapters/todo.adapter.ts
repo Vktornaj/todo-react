@@ -47,7 +47,7 @@ export const addapterMyTodo = (myTodo: MyTodo) => {
     return formattedTodo;
 };
 
-export const adapterMyTodoUpdate = (myTodo: MyTodo) => {
+export const adapterMyTodoUpdate = (myTodo: MyTodoUpdate) => {
     if (myTodo.id === null) {
         throw new Error("TodoUpdate needs the id");
     }

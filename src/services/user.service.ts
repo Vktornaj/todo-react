@@ -26,7 +26,7 @@ class UserService {
     }
 
     deleteTodo(id: string) {
-        return api<string>(
+        return api<Todo>(
             API_URL + `/api/todo/${id}/`, { headers: authHeader(), method: 'DELETE' }
         );
     }
@@ -35,7 +35,7 @@ class UserService {
         let headers = new Headers();
         headers.append("Content-Type", "application/json");
         headers.append("Authorization", authHeader().Authorization);
-        return api(
+        return api<Todo>(
             API_URL + `/api/todo`,
             { headers, method: 'PUT', body: JSON.stringify(todo) }
         );

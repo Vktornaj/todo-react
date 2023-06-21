@@ -1,11 +1,9 @@
 import { useLayoutEffect, useState } from "react";
 import { useRef } from 'react';
-
 import { Status, Todo } from "../types/todoTypes";
 import TodoItem from "./TodoItem";
 import userService from "../services/user.service";
 import { addapterEndpointTodo, addapterMyTodo } from "../adapters/todo.adapter";
-import { TodoUpdate } from "../types/endpointTypes";
 
 
 const Todos = () => {
@@ -25,28 +23,6 @@ const Todos = () => {
     };
 
     useLayoutEffect(updateTodos, []);
-
-    const handleSetTodoStatus = (id: string, status: Status) => {
-        const todo: TodoUpdate = {
-            id,
-            title: null,
-            description: null,
-            status,
-            doneDate: null,
-            deadline: null
-        };
-        userService.putTodo(todo)
-            .then(_ => updateTodos())
-            .catch(_ => {
-                console.error(`Error on set ${status} todo`);
-            });
-    };
-
-    const handleRemove = (id: string) => {
-        userService.deleteTodo(id)
-            .then(_ => updateTodos())
-            .catch(err => console.error("Error removing todo: ", err));
-    };
 
     const addTodo = (title: string) => {
         const todo: Todo = {
@@ -100,12 +76,7 @@ const Todos = () => {
             </div>
             <ul className="todo-list">
                 {myTodos.map(todo => (
-                    <TodoItem 
-                        key={todo.id} 
-                        todo={todo} 
-                        handleSetTodoStatus={handleSetTodoStatus} 
-                        onRemove={handleRemove}
-                    />
+                    <TodoItem key={todo.id} todo={todo} />
                 ))}
             </ul>
         </div>

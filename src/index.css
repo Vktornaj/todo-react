@@ -100,6 +100,7 @@ form input {
 .todo-item > .body > .data > div > .date-section > div > input {
     color: #4f4f4f;
     font-size: small;
+    margin-left: 0.5rem;
 }
 
 .todo-item > .body > .tags {

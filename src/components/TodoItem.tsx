@@ -1,14 +1,63 @@
 import { Status, Todo } from "../types/todoTypes";
+import userService from "../services/user.service";
+import { TodoUpdate } from "../types/todoTypes";
+import { adapterMyTodoUpdate, addapterEndpointTodo } from "../adapters/todo.adapter";
+import { useState } from "react";
 
 
-type TodoItemProps = {
-    todo: Todo,
-    handleSetTodoStatus: (id: string, status: Status) => void,
-    onRemove: (id: string) => void,
-};
+type TodoItemProps = { todo: Todo };
 
-const TodoItem = ({ todo, handleSetTodoStatus, onRemove }: TodoItemProps) => {
-    const { id, title, status, createDate, doneDate, deadline, description, tags } = todo;
+const TodoItem = ({ todo }: TodoItemProps) => {
+
+    const [myTodo, setMyTodo] = useState<Todo | null>(todo);
+
+    if (myTodo == null) {
+        return(<></>);
+    }
+
+    const { id, title, status, createDate, doneDate, deadline, description, tags } = myTodo;
+
+    if (id == null) {
+        throw new Error("id can't be null in this context");
+    }
+    
+    const handleRemove = (id: string) => {
+        userService.deleteTodo(id)
+            .then(_ => setMyTodo(null))
+            .catch(err => console.error("Error removing todo: ", err));
+    };
+
+    const handleSetTodoStatus = (id: string, status: Status) => {
+        const todo: TodoUpdate = {
+            id,
+            title: null,
+            description: null,
+            status,
+            doneDate: null,
+            deadline: null
+        };
+        userService.putTodo(adapterMyTodoUpdate(todo))
+            .then(todo => setMyTodo(addapterEndpointTodo(todo)))
+            .catch(_ => {
+                console.error(`Error on set ${status} todo`);
+            });
+    };
+
+    const handleInputDate = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const date = new Date(e.target.value);
+        const todo: TodoUpdate = {
+            id,
+            title: null,
+            description: null,
+            status: null,
+            doneDate: null,
+            deadline: date
+        };
+        userService.putTodo(adapterMyTodoUpdate(todo))
+            .then(todo => setMyTodo(addapterEndpointTodo(todo)))
+            .catch(_ => console.error(`Error on set deadline todo`) );
+    };
+
     if (id == null) {
         throw new Error("id can't be null in this context");
     }
@@ -24,7 +73,7 @@ const TodoItem = ({ todo, handleSetTodoStatus, onRemove }: TodoItemProps) => {
                     <button onClick={() => handleSetTodoStatus(id, Status.PAUSED)}>Pause</button>
                     <button onClick={() => handleSetTodoStatus(id, Status.ABORTED)}>Abort</button>
                     <button onClick={() => handleSetTodoStatus(id, Status.DONE)}>Terminate</button>
-                    <button onClick={() => onRemove(id)}>Remove</button>
+                    <button onClick={() => handleRemove(id)}>Remove</button>
                 </div>
             </div>
             <div className="body">
@@ -58,7 +107,7 @@ const TodoItem = ({ todo, handleSetTodoStatus, onRemove }: TodoItemProps) => {
                                         : "None"
                                     }
                                 </span>
-                                <input type="date" name="deadline" id="deadline" />
+                                <input onChange={handleInputDate} type="date" name="deadline" id="deadline" />
                             </div>
                         </div>
                     </div>
