@@ -7,11 +7,11 @@ export enum Status {
 }
 
 export type Todo = {
-    id: string,
+    id: string | null,
     title: string;
     description: string;
     status: Status;
-    createDate: Date;
+    createDate: Date | null;
     doneDate: Date | null;
     deadline: Date | null;
     tags: Array<string>;

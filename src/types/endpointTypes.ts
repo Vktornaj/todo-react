@@ -1,6 +1,6 @@
 export type Auth = {
-    access_token: string;
-    token_type: string;
+    authorizationToken: string;
+    tokenType: string;
 };
 
 export type Todo = {
@@ -8,8 +8,8 @@ export type Todo = {
     title: string;
     description: string;
     status: string;
-    create_date: string;
-    done_date: string | null;
+    createDate: string | null;
+    doneDate: string | null;
     deadline: string | null;
     tags: Array<string>;
 };

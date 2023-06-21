@@ -10,6 +10,7 @@ const Register = () => {
 
     const [isShowPassword, setIsShowPassword] = useState<boolean>(false);
     const [isSending, setIsSending] = useState<boolean>(false);
+    const [isAvailable, setIsAvailable] = useState<boolean | null>(null);
 
     const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
@@ -37,14 +38,28 @@ const Register = () => {
             );
     }
 
+    const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        setIsAvailable(null);
+        authService.getUsernameAvailability(e.target.value)
+            .then(
+                (res) => setIsAvailable(res.isAvailable === "true")
+            )
+    }
+
     return(
         <div className="container">
             <h2>Register</h2>
             <form onSubmit={ handleSubmit }>
                 <div className="form-group">
                     <label htmlFor="inputUsername1">Username</label>
-                    <input type="text" className="form-control" id="inputUsername1" aria-describedby="usernameHelp"/>
-                    <small id="usernameHelp" className="form-text text-muted">We'll never share your email with anyone else.</small>
+                    <input onChange={ handleChange } type="text" className="form-control" id="inputUsername1" aria-describedby="usernameHelp"/>
+                    {/* <small id="usernameHelp" className="form-text text-muted none">We'll never share your email with anyone else.</small> */}
+                    { isAvailable === true &&
+                        <small id="usernameHelp" style={{ color: "green" }}>Username available</small>
+                    }
+                    { isAvailable === false &&
+                        <small id="usernameHelp" style={{ color: "red" }}>Username unavailable</small>
+                    }
                 </div>
                 <div className="form-group">
                     <label htmlFor="inputFirstName1">First Name</label>

@@ -53,8 +53,8 @@ export const addapterEndpointTodo = (todo: Todo) => {
         title: todo.title,
         description: todo.description,
         status: addapterEndpointStatus(todo.status),
-        createDate: new Date(todo.create_date),
-        doneDate: todo.done_date ? new Date(todo.done_date) : null,
+        createDate: todo.createDate ? new Date(todo.createDate) : null,
+        doneDate: todo.doneDate ? new Date(todo.doneDate) : null,
         deadline: todo.deadline ? new Date(todo.deadline) : null,
         tags: todo.tags,
     };
@@ -68,8 +68,8 @@ export const addapterMyTodo = (myTodo: MyTodo) => {
         title: myTodo.title,
         description: myTodo.description,
         status: myTodo.status,
-        create_date: myTodo.createDate.toJSON(),
-        done_date: myTodo.doneDate?.toJSON() || null,
+        createDate: myTodo.createDate?.toJSON() || null,
+        doneDate: myTodo.doneDate?.toJSON() || null,
         deadline: myTodo.deadline?.toJSON() || null,
         tags: myTodo.tags,
     };
@@ -120,8 +120,8 @@ export const addapterEndpointUserRegister = (userRegister: UserRegister) => {
 
 export const addapterMyAuth = (auth: MyAuth) => {
     const formattedAuth: Auth = {
-        access_token: auth.accessToken,
-        token_type: auth.tokenType,
+        authorizationToken: auth.accessToken,
+        tokenType: auth.tokenType,
     };
 
     return formattedAuth;
@@ -129,8 +129,8 @@ export const addapterMyAuth = (auth: MyAuth) => {
 
 export const addapterEndpointAuth = (auth: Auth) => {
     const formattedAuth: MyAuth = {
-        accessToken: auth.access_token,
-        tokenType: auth.token_type,
+        accessToken: auth.authorizationToken,
+        tokenType: auth.tokenType,
     };
 
     return formattedAuth;

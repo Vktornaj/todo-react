@@ -2,7 +2,7 @@ import { Auth, UserLogin, UserRegister } from '../types/endpointTypes';
 import authHeader from '../interceptors/authHeader';
 
 
-const API_URL = 'https://api.geduardo.com';
+const API_URL = 'https://geduardo.com';
 
 const api = async <T>(url: string, requestInit: RequestInit): Promise<T> => {
     const response = await fetch(url, requestInit);
@@ -30,6 +30,15 @@ class AuthService {
         return api(
             API_URL + '/api/register', 
             { headers, method: 'POST', body: JSON.stringify(userRegister) }
+        );
+    }
+    
+    getUsernameAvailability(username: string) {
+        let headers = new Headers();
+        headers.append("Content-Type", "application/json");
+        return api<{isAvailable: string}>(
+            API_URL + `/api/username-availability/${username}`, 
+            { headers, method: 'GET' }
         );
     }
 }
