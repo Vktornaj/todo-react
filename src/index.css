@@ -81,12 +81,25 @@ form input {
 .todo-item > .body > .data > div {
     display: flex;
     flex-direction: column;
-    align-items: center;
+    align-items: start;
     padding-top: 1rem;
 }
 
-.todo-item > .body > .data > div > span {
+.todo-item > .body > .data > div > .date-section {
+    display: flex;
+    flex-direction: column;
     margin: 0.15rem 0;
+    font-size: medium;
+}
+
+.todo-item > .body > .data > div > .date-section > .date {
+    color: #4f4f4f;
+    font-size: small;
+}
+
+.todo-item > .body > .data > div > .date-section > div > input {
+    color: #4f4f4f;
+    font-size: small;
 }
 
 .todo-item > .body > .tags {
@@ -132,27 +145,27 @@ form input {
   }
 
 .lds-facebook div {
-display: inline-block;
-position: absolute;
-left: 1px;
-width: 3px;
-background: #6c6c6c;
-animation: lds-facebook 1.2s cubic-bezier(0, 0.5, 0.5, 1) infinite;
+    display: inline-block;
+    position: absolute;
+    left: 1px;
+    width: 3px;
+    background: #6c6c6c;
+    animation: lds-facebook 1.2s cubic-bezier(0, 0.5, 0.5, 1) infinite;
 }
 
 .lds-facebook div:nth-child(1) {
-left: 1px;
-animation-delay: -0.24s;
+    left: 1px;
+    animation-delay: -0.24s;
 }
 
 .lds-facebook div:nth-child(2) {
-left: 5px;
-animation-delay: -0.12s;
+    left: 5px;
+    animation-delay: -0.12s;
 }
 
 .lds-facebook div:nth-child(3) {
-left: 9px;
-animation-delay: 0;
+    left: 9px;
+    animation-delay: 0;
 }
 
 @keyframes lds-facebook {

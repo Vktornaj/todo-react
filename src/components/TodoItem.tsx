@@ -10,7 +10,7 @@ type TodoItemProps = {
 const TodoItem = ({ todo, handleSetTodoStatus, onRemove }: TodoItemProps) => {
     const { id, title, status, createDate, doneDate, deadline, description, tags } = todo;
     if (id == null) {
-        throw new Error("id can't be null in this context");   
+        throw new Error("id can't be null in this context");
     }
     return (
         <li className="todo-item">
@@ -31,27 +31,36 @@ const TodoItem = ({ todo, handleSetTodoStatus, onRemove }: TodoItemProps) => {
                 <div className="data">
                     <p>{description}</p>
                     <div>
-                        <span>
-                            Create date:
-                            {createDate ?
-                                createDate.getDate() + "/" + createDate.getMonth()
-                                : "None"
-                            }
-                        </span>
-                        <span>
-                            Terminate Date:
-                            {doneDate ?
-                                doneDate.getDate() + "/" + doneDate.getMonth()
-                                : "None"
-                            }
-                        </span>
-                        <span>
-                            Deadline:
-                            {deadline ?
-                                deadline.getDate() + "/" + deadline.getMonth()
-                                : "None"
-                            }
-                        </span>
+                        <div className="date-section">
+                            <span>Create Date:</span>
+                            <span className="date">
+                                {createDate ?
+                                    `${createDate.getUTCDate()}/${createDate.getUTCMonth()}/${createDate.getUTCFullYear()}`
+                                    : "None"
+                                }
+                            </span>
+                        </div>
+                        <div className="date-section">
+                            <span>Terminate Date:</span>
+                            <span className="date">
+                                {doneDate ?
+                                    `${doneDate.getUTCDate()}/${doneDate.getUTCMonth()}/${doneDate.getUTCFullYear()}`
+                                    : "None"
+                                }
+                            </span>
+                        </div>
+                        <div className="date-section">
+                            <span>Deadline:</span>
+                            <div>
+                                <span className="date">
+                                    {deadline ?
+                                        `${deadline.getUTCDate()}/${deadline.getUTCMonth()}/${deadline.getUTCFullYear()}`
+                                        : "None"
+                                    }
+                                </span>
+                                <input type="date" name="deadline" id="deadline" />
+                            </div>
+                        </div>
                     </div>
                 </div>
                 <div className="tags">
