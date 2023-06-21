@@ -4,28 +4,10 @@ import {
     UserLogin as MyUserLogin, 
     UserRegister as MyUSerRegister
 } from "../types/userTypes";
-import { Todo, UserLogin, UserRegister } from "../types/endpointTypes";
-import { Todo as MyTodo, Status} from "../types/todoTypes";
+import { UserLogin, UserRegister } from "../types/endpointTypes";
 import { Auth as MyAuth } from "../types/authTypes";
 import { Auth } from "../types/endpointTypes";
 
-
-const addapterEndpointStatus = (status: string) => {
-    switch (status) {
-        case "PENDING":
-            return Status.PENDING;
-        case "STARTED":
-            return Status.STARTED;
-        case "DONE":
-            return Status.DONE;
-        case "PAUSED":
-            return Status.PAUSED;
-        case "ABORTED":
-            return Status.ABORTED;
-        default:
-            throw new Error("Status not found");
-    }
-};
 
 export const addapterEndpointUser = (user: UserEndpoint) => {
     const formattedUser: MyUser = {
@@ -46,37 +28,6 @@ export const addapterMyUser = (user: MyUser) => {
 
     return formattedUser;
 };
-
-export const addapterEndpointTodo = (todo: Todo) => {
-    const formattedTodo: MyTodo = {
-        id: todo.id || "",
-        title: todo.title,
-        description: todo.description,
-        status: addapterEndpointStatus(todo.status),
-        createDate: todo.createDate ? new Date(todo.createDate) : null,
-        doneDate: todo.doneDate ? new Date(todo.doneDate) : null,
-        deadline: todo.deadline ? new Date(todo.deadline) : null,
-        tags: todo.tags,
-    };
-
-    return formattedTodo;
-};
-
-export const addapterMyTodo = (myTodo: MyTodo) => {
-    const formattedTodo: Todo = {
-        id: myTodo.id,
-        title: myTodo.title,
-        description: myTodo.description,
-        status: myTodo.status,
-        createDate: myTodo.createDate?.toJSON() || null,
-        doneDate: myTodo.doneDate?.toJSON() || null,
-        deadline: myTodo.deadline?.toJSON() || null,
-        tags: myTodo.tags,
-    };
-
-    return formattedTodo;
-};
-
 
 export const addapterMyUserLogin = (userLogin: MyUserLogin) => {
     const formattedUserLogin: UserLogin = {

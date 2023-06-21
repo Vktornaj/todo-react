@@ -4,7 +4,8 @@ import { useRef } from 'react';
 import { Status, Todo } from "../types/todoTypes";
 import TodoItem from "./TodoItem";
 import userService from "../services/user.service";
-import { addapterEndpointTodo, addapterMyTodo } from "../adapters/user";
+import { addapterEndpointTodo, addapterMyTodo } from "../adapters/todo.adapter";
+import { TodoUpdate } from "../types/endpointTypes";
 
 
 const Todos = () => {
@@ -14,19 +15,27 @@ const Todos = () => {
 
     const updateTodos = () => {
         userService.getTodos(0, 10)
-            .then((res) => {
+            .then(res => {
                 const todos = res.map(addapterEndpointTodo);
                 setMyTodos(todos);
             })
-            .catch(_ => {
-                console.error("Error get todos");
+            .catch(err => {
+                console.error("Error get todos: ", err);
             });
     };
 
     useLayoutEffect(updateTodos, []);
 
     const handleSetTodoStatus = (id: string, status: Status) => {
-        userService.putTodoStatus(id, status)
+        const todo: TodoUpdate = {
+            id,
+            title: null,
+            description: null,
+            status,
+            doneDate: null,
+            deadline: null
+        };
+        userService.putTodo(todo)
             .then(_ => updateTodos())
             .catch(_ => {
                 console.error(`Error on set ${status} todo`);
@@ -36,7 +45,7 @@ const Todos = () => {
     const handleRemove = (id: string) => {
         userService.deleteTodo(id)
             .then(_ => updateTodos())
-            .catch(_ => console.error("Error removing todo"));
+            .catch(err => console.error("Error removing todo: ", err));
     };
 
     const addTodo = (title: string) => {
@@ -50,10 +59,9 @@ const Todos = () => {
             deadline: null,
             tags: []
         };
-        console.log(addapterMyTodo(todo));
         userService.postTodo(addapterMyTodo(todo))
             .then(
-                (_) => {
+                _ => {
                     updateTodos();
                     if (!titleInputRef.current) {
                         return

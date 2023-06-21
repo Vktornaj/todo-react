@@ -4,7 +4,7 @@ import { Auth } from "../types/authTypes";
 import { authReducer } from "./authReducer";
 import authService from "../services/auth.service";
 import { UserLogin } from "../types/userTypes";
-import { addapterEndpointAuth, addapterMyUserLogin } from "../adapters/user";
+import { addapterEndpointAuth, addapterMyUserLogin } from "../adapters/user.adapter";
 
 
 type Props = {

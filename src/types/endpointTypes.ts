@@ -14,6 +14,15 @@ export type Todo = {
     tags: Array<string>;
 };
 
+export type TodoUpdate = {
+    id: string,
+    title: string | null;
+    description: string | null;
+    status: string | null;
+    doneDate: string | null;
+    deadline: string | null;
+};
+
 export type User = {
     username: string;
     firstName: string;

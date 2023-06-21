@@ -9,6 +9,9 @@ type TodoItemProps = {
 
 const TodoItem = ({ todo, handleSetTodoStatus, onRemove }: TodoItemProps) => {
     const { id, title, status, createDate, doneDate, deadline, description, tags } = todo;
+    if (id == null) {
+        throw new Error("id can't be null in this context");   
+    }
     return (
         <li className="todo-item">
             <div className="header">
@@ -30,7 +33,10 @@ const TodoItem = ({ todo, handleSetTodoStatus, onRemove }: TodoItemProps) => {
                     <div>
                         <span>
                             Create date:
-                            {createDate.getDate() + "/" + createDate.getMonth()}
+                            {createDate ?
+                                createDate.getDate() + "/" + createDate.getMonth()
+                                : "None"
+                            }
                         </span>
                         <span>
                             Terminate Date:

@@ -2,7 +2,7 @@ import { useState } from "react";
 
 import { UserRegister } from "../types/userTypes";
 import authService from "../services/auth.service";
-import { addapterMyUserRegister } from "../adapters/user";
+import { addapterMyUserRegister } from "../adapters/user.adapter";
 import SubmitButton from "./SubmitButton";
 
 

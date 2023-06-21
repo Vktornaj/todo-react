@@ -1,5 +1,5 @@
 import authHeader from '../interceptors/authHeader';
-import { User, Todo } from '../types/endpointTypes';
+import { User, Todo, TodoUpdate } from '../types/endpointTypes';
 
 
 const API_URL = 'https://geduardo.com';
@@ -27,17 +27,17 @@ class UserService {
 
     deleteTodo(id: string) {
         return api<string>(
-            API_URL + `users/todo/${id}/`, { headers: authHeader(), method: 'DELETE' }
+            API_URL + `/api/todo/${id}/`, { headers: authHeader(), method: 'DELETE' }
         );
     }
     
-    putTodoStatus(status: string, id: string) {
+    putTodo(todo: TodoUpdate) {
         let headers = new Headers();
         headers.append("Content-Type", "application/json");
         headers.append("Authorization", authHeader().Authorization);
         return api(
-            API_URL + `/users/todo/${id}`, 
-            { headers: authHeader(), method: 'PUT', body: JSON.stringify({ status }) }
+            API_URL + `/api/todo`,
+            { headers, method: 'PUT', body: JSON.stringify(todo) }
         );
     }
     
@@ -47,7 +47,7 @@ class UserService {
         headers.append("Authorization", authHeader().Authorization);
         return api<Todo>(
             API_URL + `/api/todo`, 
-            { headers, method: 'POST', body: JSON.stringify(todo) }
+            { headers: authHeader(), method: 'POST', body: JSON.stringify(todo) }
         );
     }
 }
