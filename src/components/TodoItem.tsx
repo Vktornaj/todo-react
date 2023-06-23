@@ -11,7 +11,7 @@ const TodoItem = ({ todo }: TodoItemProps) => {
 
     const [myTodo, setMyTodo] = useState<Todo | null>(todo);
     const addTagInputRef = useRef<HTMLInputElement>(null);
-    const descriptionInputRef = useRef<HTMLInputElement>(null);
+    const descriptionInputRef = useRef<HTMLTextAreaElement>(null);
 
     if (myTodo == null) {
         return(<></>);
@@ -93,7 +93,7 @@ const TodoItem = ({ todo }: TodoItemProps) => {
             .catch(err => console.error("Error removing tag: ", err));
     };
 
-    const handleUpdateDescription = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    const handleUpdateDescription = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
         if (e.key === "Enter") {
             if(descriptionInputRef.current === null || descriptionInputRef.current.value === "") {
                 return;
@@ -140,7 +140,17 @@ const TodoItem = ({ todo }: TodoItemProps) => {
             </div>
             <div className="body">
                 <div className="data">
-                    <input ref={descriptionInputRef} onKeyUp={handleUpdateDescription} type="text" name="description" id="description" defaultValue={description} />
+                    <textarea 
+                        ref={descriptionInputRef} 
+                        onKeyUp={handleUpdateDescription} 
+                        name="description" 
+                        id="description" 
+                        defaultValue={description}
+                        rows={5}
+                        cols={30}
+                        style={{ resize: "none" }}
+                    >
+                    </textarea>
                     <div>
                         <div className="date-section">
                             <span>Create Date:</span>
