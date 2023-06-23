@@ -2,7 +2,7 @@ import { Status, Todo } from "../types/todoTypes";
 import userService from "../services/user.service";
 import { TodoUpdate } from "../types/todoTypes";
 import { adapterMyTodoUpdate, addapterEndpointTodo } from "../adapters/todo.adapter";
-import { useState } from "react";
+import { useRef, useState } from "react";
 
 
 type TodoItemProps = { todo: Todo };
@@ -10,6 +10,8 @@ type TodoItemProps = { todo: Todo };
 const TodoItem = ({ todo }: TodoItemProps) => {
 
     const [myTodo, setMyTodo] = useState<Todo | null>(todo);
+    const addTagInputRef = useRef<HTMLInputElement>(null);
+    const descriptionInputRef = useRef<HTMLInputElement>(null);
 
     if (myTodo == null) {
         return(<></>);
@@ -58,6 +60,59 @@ const TodoItem = ({ todo }: TodoItemProps) => {
             .catch(_ => console.error(`Error on set deadline todo`) );
     };
 
+    const handleOnChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+        const status = e.target.value as Status;
+        handleSetTodoStatus(id, status);
+    };
+
+    const handleAddTag = (e: React.KeyboardEvent<HTMLInputElement>) => {
+        if (e.key === "Enter") {
+            if(addTagInputRef.current === null || addTagInputRef.current.value === "") {
+                return;
+            }
+            const tag = addTagInputRef.current.value;
+            userService.putTodoTag(id, tag)
+                .then(todo => {
+                    addTagInputRef.current!.value = "";
+                    setMyTodo(addapterEndpointTodo(todo));
+                })
+                .catch(err => {
+                    addTagInputRef.current!.value = "";
+                    console.error("Error adding tag: ", err);
+                });
+        }
+    };
+
+    const handleRemoveTag = (e: React.MouseEvent<HTMLSpanElement, MouseEvent>) => {
+        const tag = e.currentTarget.textContent;
+        if (tag === null) {
+            return;
+        }
+        userService.deleteTodoTag(id, tag)
+            .then(todo => setMyTodo(addapterEndpointTodo(todo)))
+            .catch(err => console.error("Error removing tag: ", err));
+    };
+
+    const handleUpdateDescription = (e: React.KeyboardEvent<HTMLInputElement>) => {
+        if (e.key === "Enter") {
+            if(descriptionInputRef.current === null || descriptionInputRef.current.value === "") {
+                return;
+            }
+            const description = descriptionInputRef.current.value;
+            const todo: TodoUpdate = {
+                id,
+                title: null,
+                description,
+                status: null,
+                doneDate: null,
+                deadline: null
+            };
+            userService.putTodo(adapterMyTodoUpdate(todo))
+                .then(todo => setMyTodo(addapterEndpointTodo(todo)))
+                .catch(err => console.error("Error updating description: ", err));
+        }
+    };
+
     if (id == null) {
         throw new Error("id can't be null in this context");
     }
@@ -68,17 +123,24 @@ const TodoItem = ({ todo }: TodoItemProps) => {
                     {title}
                 </span>
                 <span>{status}</span>
-                <div>
-                    <button onClick={() => handleSetTodoStatus(id, Status.STARTED)}>Start</button>
-                    <button onClick={() => handleSetTodoStatus(id, Status.PAUSED)}>Pause</button>
-                    <button onClick={() => handleSetTodoStatus(id, Status.ABORTED)}>Abort</button>
-                    <button onClick={() => handleSetTodoStatus(id, Status.DONE)}>Terminate</button>
-                    <button onClick={() => handleRemove(id)}>Remove</button>
-                </div>
+                <label htmlFor="status">Status</label>
+                <select 
+                    name="status" 
+                    id="status" 
+                    onChange={handleOnChange}
+                    defaultValue={status}
+                >
+                    <option value={Status.PENDING}>Pending</option>
+                    <option value={Status.STARTED}>Started</option>
+                    <option value={Status.PAUSED}>Paused</option>
+                    <option value={Status.ABORTED}>Aborted</option>
+                    <option value={Status.DONE}>Done</option>
+                </select>
+                <button onClick={() => handleRemove(id)}>Remove</button>
             </div>
             <div className="body">
                 <div className="data">
-                    <p>{description}</p>
+                    <input ref={descriptionInputRef} onKeyUp={handleUpdateDescription} type="text" name="description" id="description" defaultValue={description} />
                     <div>
                         <div className="date-section">
                             <span>Create Date:</span>
@@ -114,8 +176,9 @@ const TodoItem = ({ todo }: TodoItemProps) => {
                 </div>
                 <div className="tags">
                     {tags && tags.map(tag => (
-                        <span key={tag} className="tag">{tag}</span>
+                        <span onClick={handleRemoveTag} key={tag} className="tag">{tag}</span>
                     ))}
+                    <input ref={addTagInputRef} onKeyUp={handleAddTag} type="text" name="addeTag" id="addTag" />    
                 </div>
             </div>
         </li>

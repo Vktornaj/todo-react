@@ -41,6 +41,26 @@ class UserService {
         );
     }
     
+    putTodoTag(id: string, tag: string) {
+        let headers = new Headers();
+        headers.append("Content-Type", "application/json");
+        headers.append("Authorization", authHeader().Authorization);
+        return api<Todo>(
+            API_URL + `/api/todo/${id}/tag/${tag}`,
+            { headers, method: 'PUT', body: JSON.stringify({ tag }) }
+        );
+    }
+   
+    deleteTodoTag(id: string, tag: string) {
+        let headers = new Headers();
+        headers.append("Content-Type", "application/json");
+        headers.append("Authorization", authHeader().Authorization);
+        return api<Todo>(
+            API_URL + `/api/todo/${id}/tag/${tag}`,
+            { headers, method: 'DELETE', body: JSON.stringify({ tag }) }
+        );
+    }
+    
     postTodo(todo: Todo) {
         let headers = new Headers();
         headers.append("Content-Type", "application/json");
