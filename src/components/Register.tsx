@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Navigate } from "react-router-dom";
+import {createSearchParams, useNavigate} from 'react-router-dom';
 
 import { UserRegister } from "../types/userTypes";
 import authService from "../services/auth.service";
@@ -11,6 +11,7 @@ const Register = () => {
     const [isShowPassword, setIsShowPassword] = useState<boolean>(false);
     const [isSending, setIsSending] = useState<boolean>(false);
     const [isAvailable, setIsAvailable] = useState<boolean | null>(null);
+    const navigate = useNavigate();
 
     const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
@@ -20,14 +21,17 @@ const Register = () => {
             lastName: e.currentTarget.inputLastName1.value,
             password: e.currentTarget.inputPassword1.value
         }
-
-        const user = userRegister;
         setIsSending(true);
-        authService.postRegister(user)
+        authService.postRegister(userRegister)
             .then(
-                _ => {
+                user => {
                     setIsSending(false);
-                    <Navigate to="/login" replace={true} />
+                    navigate({
+                        pathname: "/login",
+                        search: createSearchParams({ 
+                            username: user.username 
+                        }).toString()
+                    });
                 }
             )
             .catch(
@@ -52,8 +56,13 @@ const Register = () => {
             <form onSubmit={ handleSubmit }>
                 <div className="form-group">
                     <label htmlFor="inputUsername1">Username</label>
-                    <input onChange={ handleChange } type="text" className="form-control" id="inputUsername1" aria-describedby="usernameHelp"/>
-                    {/* <small id="usernameHelp" className="form-text text-muted none">We'll never share your email with anyone else.</small> */}
+                    <input 
+                        onChange={ handleChange } 
+                        type="text" 
+                        className="form-control" 
+                        id="inputUsername1" 
+                        aria-describedby="usernameHelp"
+                    />
                     { isAvailable === true &&
                         <small id="usernameHelp" style={{ color: "green" }}>Username available</small>
                     }

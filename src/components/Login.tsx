@@ -1,5 +1,5 @@
 import { useContext, useState } from "react";
-import { Navigate } from "react-router-dom";
+import { Navigate, useSearchParams } from "react-router-dom";
 
 import { AuthContext } from "../contexts/AuthProvider";
 import { UserLogin } from "../types/userTypes";
@@ -18,7 +18,9 @@ const Login = () => {
 
     const { login } = useContext(AuthContext);
     const [status, setStatus] = useState<Status>(Status.INITIAL);
-
+    const [searchParams] = useSearchParams();
+    let username = searchParams.get("username"); 
+    
     const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         const userLogin: UserLogin = {
@@ -44,7 +46,12 @@ const Login = () => {
             <form onSubmit={ handleSubmit }>
                 <div className="form-group">
                     <label htmlFor="inputUsername1">Username</label>
-                    <input type="text" className="form-control" id="inputUsername1" aria-describedby="usernameHelp"/>
+                    <input 
+                        type="text" 
+                        className="form-control" 
+                        id="inputUsername1" 
+                        defaultValue={username || ""}
+                    />
                     <small 
                         id="usernameHelp" 
                         className={styles.msg_wrong_credentials}
