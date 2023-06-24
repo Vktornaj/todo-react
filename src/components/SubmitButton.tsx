@@ -1,12 +1,15 @@
+import styles from "./submit_button.module.css";
+
+
 type Props = {
     isSending: boolean,
 };
 
 const SubmitButton = ({isSending}: Props) => {
     return (
-        <button type="submit" className="btn-submit">
+        <button type="submit" className={styles.btn_submit}>
             {isSending ? 
-            <div className="lds-facebook"><div></div><div></div><div></div></div> 
+            <div className={styles.lds_facebook}><div></div><div></div><div></div></div> 
             : "Submit"}
         </button>
     );

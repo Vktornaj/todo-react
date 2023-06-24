@@ -1,15 +1,15 @@
-.btn-submit {
+.btn_submit {
     width: 4.5rem;
 }
 
-.lds-facebook {
+.lds_facebook {
     display: inline-block;
     position: relative;
     width: 10px;
     height: 10px;
   }
 
-.lds-facebook div {
+.lds_facebook div {
     display: inline-block;
     position: absolute;
     left: 1px;
@@ -18,17 +18,17 @@
     animation: lds-facebook 1.2s cubic-bezier(0, 0.5, 0.5, 1) infinite;
 }
 
-.lds-facebook div:nth-child(1) {
+.lds_facebook div:nth-child(1) {
     left: 1px;
     animation-delay: -0.24s;
 }
 
-.lds-facebook div:nth-child(2) {
+.lds_facebook div:nth-child(2) {
     left: 5px;
     animation-delay: -0.12s;
 }
 
-.lds-facebook div:nth-child(3) {
+.lds_facebook div:nth-child(3) {
     left: 9px;
     animation-delay: 0;
 }

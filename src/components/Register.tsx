@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { Navigate } from "react-router-dom";
 
 import { UserRegister } from "../types/userTypes";
 import authService from "../services/auth.service";
@@ -24,8 +25,9 @@ const Register = () => {
         setIsSending(true);
         authService.postRegister(user)
             .then(
-                (res) => {
+                _ => {
                     setIsSending(false);
+                    <Navigate to="/login" replace={true} />
                 }
             )
             .catch(
