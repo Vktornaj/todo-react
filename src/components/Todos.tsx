@@ -1,9 +1,10 @@
 import { useLayoutEffect, useState } from "react";
 import { useRef } from 'react';
+
 import { Status, Todo } from "../types/todoTypes";
 import TodoItem from "./TodoItem";
 import userService from "../services/user.service";
-import { addapterEndpointTodo, addapterMyTodo } from "../adapters/todo.adapter";
+import styles from "./todos.module.css";
 
 
 const Todos = () => {
@@ -13,9 +14,8 @@ const Todos = () => {
 
     const updateTodos = () => {
         userService.getTodos(0, 10)
-            .then(res => {
-                const todos = res.map(addapterEndpointTodo);
-                setMyTodos(todos);
+            .then(todo => {
+                setMyTodos(todo);
             })
             .catch(err => {
                 console.error("Error get todos: ", err);
@@ -35,7 +35,7 @@ const Todos = () => {
             deadline: null,
             tags: []
         };
-        userService.postTodo(addapterMyTodo(todo))
+        userService.postTodo(todo)
             .then(
                 _ => {
                     updateTodos();
@@ -69,12 +69,12 @@ const Todos = () => {
     return(
         <div className="container">
             <h2>Todos</h2>
-            <div className="add-todo">
-                <span className="label">Add Todo</span>
-                <input ref={titleInputRef} className="input" type="text" onKeyUp={handleKeyUp}/>
-                <button className="button" onClick={handleClick} >Add</button>
+            <div className={styles.add_todo}>
+                <span className={styles.label}>Add Todo</span>
+                <input ref={titleInputRef} className={styles.input} type="text" onKeyUp={handleKeyUp}/>
+                <button className={styles.label} onClick={handleClick} >Add</button>
             </div>
-            <ul className="todo-list">
+            <ul className={styles.todo_list}>
                 {myTodos.map(todo => (
                     <TodoItem key={todo.id} todo={todo} />
                 ))}

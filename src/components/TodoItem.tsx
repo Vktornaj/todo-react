@@ -1,8 +1,9 @@
+import { useRef, useState } from "react";
+
 import { Status, Todo } from "../types/todoTypes";
 import userService from "../services/user.service";
 import { TodoUpdate } from "../types/todoTypes";
-import { adapterMyTodoUpdate, addapterEndpointTodo } from "../adapters/todo.adapter";
-import { useRef, useState } from "react";
+import styles from "./todo_item.module.css";
 
 
 type TodoItemProps = { todo: Todo };
@@ -30,16 +31,9 @@ const TodoItem = ({ todo }: TodoItemProps) => {
     };
 
     const handleSetTodoStatus = (id: string, status: Status) => {
-        const todo: TodoUpdate = {
-            id,
-            title: null,
-            description: null,
-            status,
-            doneDate: null,
-            deadline: null
-        };
-        userService.putTodo(adapterMyTodoUpdate(todo))
-            .then(todo => setMyTodo(addapterEndpointTodo(todo)))
+        const todo: TodoUpdate = { id, status, doneDate: null };
+        userService.putTodo(todo)
+            .then(todo => setMyTodo(todo))
             .catch(_ => {
                 console.error(`Error on set ${status} todo`);
             });
@@ -47,16 +41,9 @@ const TodoItem = ({ todo }: TodoItemProps) => {
 
     const handleInputDate = (e: React.ChangeEvent<HTMLInputElement>) => {
         const date = new Date(e.target.value);
-        const todo: TodoUpdate = {
-            id,
-            title: null,
-            description: null,
-            status: null,
-            doneDate: null,
-            deadline: date
-        };
-        userService.putTodo(adapterMyTodoUpdate(todo))
-            .then(todo => setMyTodo(addapterEndpointTodo(todo)))
+        const todo: TodoUpdate = { id, deadline: date };
+        userService.putTodo(todo)
+            .then(todo => setMyTodo(todo))
             .catch(_ => console.error(`Error on set deadline todo`) );
     };
 
@@ -74,7 +61,7 @@ const TodoItem = ({ todo }: TodoItemProps) => {
             userService.putTodoTag(id, tag)
                 .then(todo => {
                     addTagInputRef.current!.value = "";
-                    setMyTodo(addapterEndpointTodo(todo));
+                    setMyTodo(todo);
                 })
                 .catch(err => {
                     addTagInputRef.current!.value = "";
@@ -89,7 +76,7 @@ const TodoItem = ({ todo }: TodoItemProps) => {
             return;
         }
         userService.deleteTodoTag(id, tag)
-            .then(todo => setMyTodo(addapterEndpointTodo(todo)))
+            .then(todo => setMyTodo(todo))
             .catch(err => console.error("Error removing tag: ", err));
     };
 
@@ -99,16 +86,9 @@ const TodoItem = ({ todo }: TodoItemProps) => {
                 return;
             }
             const description = descriptionInputRef.current.value;
-            const todo: TodoUpdate = {
-                id,
-                title: null,
-                description,
-                status: null,
-                doneDate: null,
-                deadline: null
-            };
-            userService.putTodo(adapterMyTodoUpdate(todo))
-                .then(todo => setMyTodo(addapterEndpointTodo(todo)))
+            const todo: TodoUpdate = { id, description };
+            userService.putTodo(todo)
+                .then(todo => setMyTodo(todo))
                 .catch(err => console.error("Error updating description: ", err));
         }
     };
@@ -117,8 +97,8 @@ const TodoItem = ({ todo }: TodoItemProps) => {
         throw new Error("id can't be null in this context");
     }
     return (
-        <li className="todo-item">
-            <div className="header">
+        <li className={styles.todo_item}>
+            <div className={styles.header}>
                 <span style={{ textDecoration: status === Status.DONE ? 'line-through' : 'none' }}>
                     {title}
                 </span>
@@ -138,8 +118,8 @@ const TodoItem = ({ todo }: TodoItemProps) => {
                 </select>
                 <button onClick={() => handleRemove(id)}>Remove</button>
             </div>
-            <div className="body">
-                <div className="data">
+            <div className={styles.body}>
+                <div className={styles.data}>
                     <textarea 
                         ref={descriptionInputRef} 
                         onKeyUp={handleUpdateDescription} 
@@ -152,28 +132,28 @@ const TodoItem = ({ todo }: TodoItemProps) => {
                     >
                     </textarea>
                     <div>
-                        <div className="date-section">
+                        <div className={styles.date_section}>
                             <span>Create Date:</span>
-                            <span className="date">
+                            <span className={styles.date}>
                                 {createDate ?
                                     `${createDate.getUTCDate()}/${createDate.getUTCMonth()}/${createDate.getUTCFullYear()}`
                                     : "None"
                                 }
                             </span>
                         </div>
-                        <div className="date-section">
+                        <div className={styles.date_section}>
                             <span>Terminate Date:</span>
-                            <span className="date">
+                            <span className={styles.date}>
                                 {doneDate ?
                                     `${doneDate.getUTCDate()}/${doneDate.getUTCMonth()}/${doneDate.getUTCFullYear()}`
                                     : "None"
                                 }
                             </span>
                         </div>
-                        <div className="date-section">
+                        <div className={styles.date_section}>
                             <span>Deadline:</span>
                             <div>
-                                <span className="date">
+                                <span className={styles.date}>
                                     {deadline ?
                                         `${deadline.getUTCDate()}/${deadline.getUTCMonth()}/${deadline.getUTCFullYear()}`
                                         : "None"
@@ -184,9 +164,9 @@ const TodoItem = ({ todo }: TodoItemProps) => {
                         </div>
                     </div>
                 </div>
-                <div className="tags">
+                <div className={styles.tags}>
                     {tags && tags.map(tag => (
-                        <span onClick={handleRemoveTag} key={tag} className="tag">{tag}</span>
+                        <span onClick={handleRemoveTag} key={tag} className={styles.tag}>{tag}</span>
                     ))}
                     <input ref={addTagInputRef} onKeyUp={handleAddTag} type="text" name="addeTag" id="addTag" />    
                 </div>

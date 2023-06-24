@@ -1,0 +1,63 @@
+.todo_item {
+    border: 2px solid;
+    padding: 1rem 2rem;
+    margin: 0.5rem 0;
+}
+
+.todo_item > .header {
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.todo_item > .body {
+    margin: 0 0;
+}
+
+.todo_item > .body > .data {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.todo_item > .body > .data > p {
+    display: flex;
+    align-items: center;
+}
+
+.todo_item > .body > .data > div {
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+    padding-top: 1rem;
+}
+
+.todo_item > .body > .data > div > .date_section {
+    display: flex;
+    flex-direction: column;
+    margin: 0.15rem 0;
+    font-size: medium;
+}
+
+.todo_item > .body > .data > div > .date_section > .date {
+    color: #4f4f4f;
+    font-size: small;
+}
+
+.todo_item > .body > .data > div > .date_section > div > input {
+    color: #4f4f4f;
+    font-size: small;
+    margin-left: 0.5rem;
+}
+
+.todo_item > .body > .tags {
+    display: flex;
+}
+
+.todo_item > .body > .tags > .tag {
+    margin: 0 0.5rem 0 0;
+    background-color: #98c9f7;
+    padding: 0.1rem 0.5rem;
+    font: 0.9em sans-serif;
+}

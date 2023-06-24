@@ -1,0 +1,25 @@
+.todo_list {
+    display: flex;
+    flex-direction: column;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.add_todo {
+    display: flex;
+    margin: 1rem 0;
+}
+
+.add_todo > .label {
+    flex-basis: fit-content;
+    margin-right: 0.5rem;
+}
+
+.add_todo > .input {
+    flex: 1;
+}
+
+.add_todo > .button {
+    margin-left: 0.5rem;
+}

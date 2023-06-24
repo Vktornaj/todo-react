@@ -1,9 +1,9 @@
-export type Auth = {
+export type AuthEndpoint = {
     authorizationToken: string;
     tokenType: string;
 };
 
-export type Todo = {
+export type TodoEndpoint = {
     id: string | null;
     title: string;
     description: string;
@@ -14,29 +14,29 @@ export type Todo = {
     tags: Array<string>;
 };
 
-export type TodoUpdate = {
+export type TodoUpdateEndpoint = {
     id: string,
-    title: string | null;
-    description: string | null;
-    status: string | null;
-    doneDate: string | null;
-    deadline: string | null;
+    title?: string;
+    description?: string;
+    status?: string;
+    doneDate?: string | null;
+    deadline?: string | null;
 };
 
-export type User = {
+export type UserEndpoint = {
     username: string;
     firstName: string;
     lastName: string;
 };
 
-export type UserRegister = {
+export type UserRegisterEndpoint = {
     username: string;
     firstName: string;
     lastName: string;
     password: string;
 };
 
-export type UserLogin = {
+export type UserLoginEndpoint = {
     username: string;
     password: string;
 };

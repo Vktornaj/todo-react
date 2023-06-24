@@ -1,8 +1,10 @@
-import { Auth, UserLogin, UserRegister } from '../types/endpointTypes';
+import { AuthEndpoint, UserEndpoint } from '../types/endpointTypes';
 import authHeader from '../interceptors/authHeader';
+import { adapterEndpointAuth, adapterEndpointUser, adapterEndpointUserLogin, adapterEndpointUserRegister } from '../adapters/user.adapter';
+import { UserLogin, UserRegister } from '../types/userTypes';
 
 
-const API_URL = 'https://geduardo.com';
+const API_URL = 'http://127.0.0.1:8000';
 
 const api = async <T>(url: string, requestInit: RequestInit): Promise<T> => {
     const response = await fetch(url, requestInit);
@@ -14,23 +16,27 @@ const api = async <T>(url: string, requestInit: RequestInit): Promise<T> => {
 
 class AuthService {
   
-    postLogin(userLogin: UserLogin) {
+    async postLogin(userLogin: UserLogin) {
+        let _userLogin = adapterEndpointUserLogin(userLogin);
         let headers = new Headers();
         headers.append("Content-Type", "application/json");
         headers.append("Authorization", authHeader().Authorization);
-        return api<Auth>(
+        let res = api<AuthEndpoint>(
             API_URL + '/api/login', 
-            { headers, method: 'POST', body: JSON.stringify(userLogin) }
+            { headers, method: 'POST', body: JSON.stringify(_userLogin) }
         );
+        return adapterEndpointAuth(await res);
     }
 
-    postRegister(userRegister: UserRegister) {
+    async postRegister(userRegister: UserRegister) {
+        let _userRegister = adapterEndpointUserRegister(userRegister);
         let headers = new Headers();
         headers.append("Content-Type", "application/json");
-        return api(
+        let res = api<UserEndpoint>(
             API_URL + '/api/register', 
-            { headers, method: 'POST', body: JSON.stringify(userRegister) }
+            { headers, method: 'POST', body: JSON.stringify(_userRegister) }
         );
+        return adapterEndpointUser(await res);
     }
     
     getUsernameAvailability(username: string) {

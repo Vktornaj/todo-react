@@ -2,7 +2,6 @@ import { useState } from "react";
 
 import { UserRegister } from "../types/userTypes";
 import authService from "../services/auth.service";
-import { addapterMyUserRegister } from "../adapters/user.adapter";
 import SubmitButton from "./SubmitButton";
 
 
@@ -21,18 +20,17 @@ const Register = () => {
             password: e.currentTarget.inputPassword1.value
         }
 
-        const user = addapterMyUserRegister(userRegister);
+        const user = userRegister;
         setIsSending(true);
         authService.postRegister(user)
             .then(
                 (res) => {
-                    console.log(res);
                     setIsSending(false);
                 }
             )
             .catch(
-                _ => {
-                    console.error("Error register");
+                e => {
+                    console.error("Error register: ", e);
                     setIsSending(false);
                 }
             );

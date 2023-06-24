@@ -19,9 +19,9 @@ export type Todo = {
 
 export type TodoUpdate = {
     id: string,
-    title: string | null;
-    description: string | null;
-    status: Status | null;
-    doneDate: Date | null;
-    deadline: Date | null;
+    title?: string;
+    description?: string;
+    status?: Status;
+    doneDate?: Date | null;
+    deadline?: Date | null;
 };

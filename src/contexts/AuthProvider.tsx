@@ -2,9 +2,7 @@ import { createContext, useReducer } from "react";
 
 import { Auth } from "../types/authTypes";
 import { authReducer } from "./authReducer";
-import authService from "../services/auth.service";
 import { UserLogin } from "../types/userTypes";
-import { addapterEndpointAuth, addapterMyUserLogin } from "../adapters/user.adapter";
 
 
 type Props = {
@@ -13,7 +11,7 @@ type Props = {
 
 type AuthContextProps = {
     auth: Auth | null,
-    login: (userLogin: UserLogin) => void,
+    login: (userLogin: Auth) => void,
     logout: () => void,
 };
 
@@ -35,22 +33,9 @@ export const AuthProvider = ({ children }: Props) => {
 
     const [ authState, dispatch ] = useReducer(authReducer, null, init);
 
-    const login = (userLogin: UserLogin) => {
-        const user = addapterMyUserLogin(userLogin);
-        authService.postLogin(user)
-            .then(
-                (res) => {
-                    const myAuth = addapterEndpointAuth(res);
-                    localStorage.setItem('auth', JSON.stringify( myAuth ));
-                    dispatch({ type: 'login', payload: myAuth });
-                }
-            )
-            .catch(
-                _ => {
-                    console.error("Error login");
-                    window.location.reload();
-                }
-            );
+    const login = (myAuth: Auth) => {
+        localStorage.setItem('auth', JSON.stringify( myAuth ));
+        dispatch({ type: 'login', payload: myAuth });
     };
 
     const logout = () => {

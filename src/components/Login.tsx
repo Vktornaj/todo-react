@@ -1,14 +1,23 @@
 import { useContext, useState } from "react";
+import { Navigate } from "react-router-dom";
 
 import { AuthContext } from "../contexts/AuthProvider";
 import { UserLogin } from "../types/userTypes";
 import SubmitButton from "./SubmitButton";
+import authService from "../services/auth.service";
+import styles from "./login.module.css";
 
+enum Status {
+    INITIAL = "INITIAL",
+    SUCCESS = "SUCCESS",
+    ERROR = "ERROR",
+    LOADING = "LOADING"
+}
 
 const Login = () => {
 
     const { login } = useContext(AuthContext);
-    const [isSending, setIsSending] = useState<boolean>(false);
+    const [status, setStatus] = useState<Status>(Status.INITIAL);
 
     const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
@@ -16,8 +25,17 @@ const Login = () => {
             username: e.currentTarget.inputUsername1.value,
             password: e.currentTarget.inputPassword1.value
         }
-        login(userLogin);
-        setIsSending(true);
+        setStatus(Status.LOADING);
+        authService.postLogin(userLogin)
+            .then(res => {
+                login(res);
+                setStatus(Status.SUCCESS);
+                <Navigate to="/" replace={true} />
+            })
+            .catch(e => {
+                console.error("Error login: ", e);
+                setStatus(Status.ERROR);
+            });
     }
     
     return(
@@ -27,13 +45,19 @@ const Login = () => {
                 <div className="form-group">
                     <label htmlFor="inputUsername1">Username</label>
                     <input type="text" className="form-control" id="inputUsername1" aria-describedby="usernameHelp"/>
-                    <small id="usernameHelp" className="form-text text-muted">We'll never share your email with anyone else.</small>
+                    <small 
+                        id="usernameHelp" 
+                        className={styles.msg_wrong_credentials}
+                        style={{ display: status === Status.ERROR ? "block" : "none" }}
+                    >
+                        Wrong username or password
+                    </small>
                 </div>
                 <div className="form-group">
                     <label htmlFor="inputPassword1">Password</label>
                     <input type="password" className="form-control" id="inputPassword1"/>
                 </div>
-                <SubmitButton isSending={isSending} />
+                <SubmitButton isSending={status === Status.LOADING} />
             </form>
         </div>
     )

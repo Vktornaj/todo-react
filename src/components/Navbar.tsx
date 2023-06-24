@@ -3,6 +3,7 @@ import { useContext, useLayoutEffect, useState } from "react";
 
 import { AuthContext } from "../contexts/AuthProvider";
 import userService from "../services/user.service";
+import styles from "./navbar.module.css";
 
 
 const Navbar = () => {
@@ -23,7 +24,7 @@ const Navbar = () => {
     useLayoutEffect(updateUsername, [auth]);
 
     return(
-        <nav className="navbar">
+        <nav className={styles.navbar}>
             <span>Todo React JS</span>
             <span>{username}</span>
             <ul>
