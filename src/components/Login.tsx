@@ -5,7 +5,7 @@ import { AuthContext } from "../contexts/AuthProvider";
 import { UserLogin } from "../types/userTypes";
 import SubmitButton from "./SubmitButton";
 import authService from "../services/auth.service";
-import styles from "./login.module.css";
+import styles from "../styles/login.module.css";
 
 enum Status {
     INITIAL = "INITIAL",

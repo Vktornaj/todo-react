@@ -4,7 +4,7 @@ import { useRef } from 'react';
 import { Status, Todo } from "../types/todoTypes";
 import TodoItem from "./TodoItem";
 import userService from "../services/user.service";
-import styles from "./todos.module.css";
+import styles from "../styles/todos.module.css";
 
 
 const Todos = () => {

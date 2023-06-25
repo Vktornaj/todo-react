@@ -3,7 +3,7 @@ import { useRef, useState } from "react";
 import { Status, Todo } from "../types/todoTypes";
 import userService from "../services/user.service";
 import { TodoUpdate } from "../types/todoTypes";
-import styles from "./todo_item.module.css";
+import styles from "../styles/todo_item.module.css";
 
 
 type TodoItemProps = { todo: Todo };

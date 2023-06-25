@@ -3,7 +3,7 @@ import { useContext, useLayoutEffect, useState } from "react";
 
 import { AuthContext } from "../contexts/AuthProvider";
 import userService from "../services/user.service";
-import styles from "./navbar.module.css";
+import styles from "../styles/navbar.module.css";
 
 
 const Navbar = () => {

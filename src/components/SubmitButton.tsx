@@ -1,4 +1,4 @@
-import styles from "./submit_button.module.css";
+import styles from "../styles/submit_button.module.css";
 
 
 type Props = {
